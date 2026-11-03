@@ -520,17 +520,17 @@ app.delete("/api/bookings/:id", verifyUser, async (req, res) => {
 app.post("/api/studios", verifyUser, async (req, res) => {
   try {
     const {
-      title,
-      category,
-      hourlyRate,
-      securityDeposit,
-      maxCapacity,
-      location,
-      imageUrl,
-      amenities,
-      overview,
-    } = req.body;
-
+  title,
+  category,
+  hourlyRate,
+  securityDeposit,
+  maxCapacity,
+  location,
+  imageUrl,
+  images,
+  amenities,
+  overview,
+} = req.body;
     // Validate required fields
     if (
       !title ||
@@ -576,6 +576,7 @@ app.post("/api/studios", verifyUser, async (req, res) => {
       maxCapacity: capacity,
       location: location.trim(),
       imageUrl: imageUrl.trim(),
+      images: Array.isArray(images) ? images : [],
       amenities: Array.isArray(amenities) ? amenities : [],
       overview: overview.trim(),
 
