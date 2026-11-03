@@ -654,6 +654,7 @@ app.put("/api/studios/:id", verifyUser, async (req, res) => {
       maxCapacity,
       location,
       imageUrl,
+      images,
       amenities,
       overview,
     } = req.body;
