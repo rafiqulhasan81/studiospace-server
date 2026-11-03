@@ -703,6 +703,7 @@ app.put("/api/studios/:id", verifyUser, async (req, res) => {
       maxCapacity: capacity,
       location,
       imageUrl,
+      images: Array.isArray(images) ? images : [],
       amenities,
       overview,
       updatedAt: new Date(),
