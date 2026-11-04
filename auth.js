@@ -15,6 +15,14 @@ export const auth = betterAuth({
     minPasswordLength: 6,
   },
 
+  // Google Social Login Configuration
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    },
+  },
+
   trustedOrigins: [
     "http://localhost:3000",
   ],
