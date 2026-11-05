@@ -19,10 +19,7 @@ const reviewsCollection = db.collection("reviews");
 
 // 1. CORS Middleware
 app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
+  cors()
 );
 
 // 2. Better Auth Handler
