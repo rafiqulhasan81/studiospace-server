@@ -483,6 +483,99 @@ app.get("/api/reviews/:studioId", async (req, res) => {
 });
 
 
+// Create a review for a studio
+app.post("/api/reviews", verifyUser, async (req, res) => {
+  try {
+    const { studioId, rating, comment } = req.body;
+
+    // 1. Validate required fields
+    if (!studioId || !rating || !comment?.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Studio ID, rating and comment are required.",
+      });
+    }
+
+    // 2. Validate Studio ID
+    if (!ObjectId.isValid(studioId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid studio ID.",
+      });
+    }
+
+    // 3. Validate rating
+    const numericRating = Number(rating);
+
+    if (
+      !Number.isInteger(numericRating) ||
+      numericRating < 1 ||
+      numericRating > 5
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Rating must be between 1 and 5.",
+      });
+    }
+
+    // 4. Check whether the studio exists
+    const studio = await studioCollection.findOne({
+      _id: new ObjectId(studioId),
+    });
+
+    if (!studio) {
+      return res.status(404).json({
+        success: false,
+        message: "Studio not found.",
+      });
+    }
+
+    // 5. Check whether the user already reviewed this studio
+    const existingReview = await reviewsCollection.findOne({
+      studioId,
+      userId: req.user.id,
+    });
+
+    if (existingReview) {
+      return res.status(409).json({
+        success: false,
+        message: "You have already reviewed this studio.",
+      });
+    }
+
+    // 6. Create review document
+    const newReview = {
+      studioId,
+      userId: req.user.id,
+      userName: req.user.name,
+      rating: numericRating,
+      comment: comment.trim(),
+      createdAt: new Date(),
+    };
+
+    // 7. Save review in MongoDB
+    const result = await reviewsCollection.insertOne(newReview);
+
+    // 8. Send response
+    res.status(201).json({
+      success: true,
+      message: "Review submitted successfully!",
+      review: {
+        ...newReview,
+        _id: result.insertedId,
+      },
+    });
+  } catch (error) {
+    console.error("Create review error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to submit review.",
+    });
+  }
+});
+
+
 // Cancel a booking
 app.delete("/api/bookings/:id", verifyUser, async (req, res) => {
   try {
