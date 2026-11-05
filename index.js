@@ -19,7 +19,7 @@ const reviewsCollection = db.collection("reviews");
 
 // 1. CORS Middleware
 app.use(
-  cors()
+  cors({origin:["https://studiospace-iota.vercel.app"],credentials:"include"} )
 );
 
 // 2. Better Auth Handler
