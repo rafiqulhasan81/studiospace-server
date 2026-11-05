@@ -30,10 +30,17 @@ export const auth = betterAuth({
 
 
   session: {
-  cookieCache: {
-    enabled: true,
-    maxAge: 5 * 60,
-    strategy: "jwt",
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60,
+      strategy: "jwt",
+    },
   },
-},
+  advanced: {
+    defaultCookieAttributes: {
+      sameSite: 'none',
+      secure: true,
+    },
+    // trustedProxyHeaders: true,
+  },
 });
