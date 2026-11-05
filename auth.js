@@ -25,7 +25,9 @@ export const auth = betterAuth({
 
   trustedOrigins: [
     "http://localhost:3000",
+    "https://studiospace-iota.vercel.app"
   ],
+
 
   session: {
   cookieCache: {
