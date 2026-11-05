@@ -192,35 +192,6 @@ app.delete("/api/studios/:id", verifyUser, async (req, res) => {
   }
 });
 
-
-
-// 6. Add Studio API
-// app.post("/add-studio", async (req, res) => {
-//   try {
-//     const studio = req.body;
-
-//     if (!studio || Object.keys(studio).length === 0) {
-//       return res.status(400).json({
-//         message: "Studio data is required.",
-//       });
-//     }
-
-//     const result = await studioCollection.insertOne(studio);
-
-//     res.status(201).json({
-//       message: "Studio added successfully!",
-//       insertedId: result.insertedId,
-//     });
-//   } catch (error) {
-//     console.error("Error adding studio:", error);
-
-//     res.status(500).json({
-//       message: "Failed to save studio.",
-//     });
-//   }
-// });
-
-
 // Create Booking API
 app.post("/api/bookings", verifyUser, async (req, res) => {
   try {
