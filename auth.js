@@ -26,4 +26,12 @@ export const auth = betterAuth({
   trustedOrigins: [
     "http://localhost:3000",
   ],
+
+  session: {
+  cookieCache: {
+    enabled: true,
+    maxAge: 5 * 60,
+    strategy: "jwt",
+  },
+},
 });
