@@ -94,6 +94,8 @@ const studioCollection = db.collection("studios");
 // Bookings collection
 const bookingCollection = db.collection("bookings");
 
+const reviewsCollection = db.collection("reviews");
+
 // 1. CORS Middleware
 app.use(
   cors({
@@ -456,6 +458,31 @@ app.get("/api/bookings", verifyUser, async (req, res) => {
 });
 
 
+// Get reviews for a specific studio
+app.get("/api/reviews/:studioId", async (req, res) => {
+  try {
+    const { studioId } = req.params;
+
+    const reviews = await reviewsCollection
+      .find({ studioId })
+      .sort({ createdAt: -1 })
+      .toArray();
+
+    res.status(200).json({
+      success: true,
+      reviews,
+    });
+  } catch (error) {
+    console.error("Get reviews error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch reviews.",
+    });
+  }
+});
+
+
 // Cancel a booking
 app.delete("/api/bookings/:id", verifyUser, async (req, res) => {
   try {
@@ -588,6 +615,7 @@ app.post("/api/studios", verifyUser, async (req, res) => {
     };
 
     const result = await studioCollection.insertOne(newStudio);
+    
 
     res.status(201).json({
       success: true,
