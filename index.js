@@ -561,17 +561,17 @@ app.delete("/api/bookings/:id", verifyUser, async (req, res) => {
 app.post("/api/studios", verifyUser, async (req, res) => {
   try {
     const {
-  title,
-  category,
-  hourlyRate,
-  securityDeposit,
-  maxCapacity,
-  location,
-  imageUrl,
-  images,
-  amenities,
-  overview,
-} = req.body;
+      title,
+      category,
+      hourlyRate,
+      securityDeposit,
+      maxCapacity,
+      location,
+      imageUrl,
+      images,
+      amenities,
+      overview,
+    } = req.body;
     // Validate required fields
     if (
       !title ||
@@ -629,7 +629,7 @@ app.post("/api/studios", verifyUser, async (req, res) => {
     };
 
     const result = await studioCollection.insertOne(newStudio);
-    
+
 
     res.status(201).json({
       success: true,
@@ -793,13 +793,14 @@ async function startServer() {
 
     console.log("Successfully connected to MongoDB!");
 
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
+
   } catch (error) {
     console.error("Failed to start server:", error);
-    process.exit(1);
+    // process.exit(1);
   }
 }
 
 startServer();
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
